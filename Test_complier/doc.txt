@@ -1,0 +1,24 @@
+Tạo thư viện tĩnh .a (Static Library)
+Bước 1: Biên dịch math_utils.c thành object file:
+gcc -Iinclude -c src/math_utils.c -o src/math_utils.o
+
+Bước 2: Tạo thư viện tĩnh .a:
+ar rcs libmath_utils.a src/math_utils.o
+
+Bước 3: Dùng thư    viện tĩnh:
+gcc -Iinclude main.c -L. -lmath_utils -o main_static
+
+
+Tạo thư viện động .dll (Dynamic Library)
+
+Bước 1: Biên dịch math_utils.c thành object file:
+gcc -Iinclude -fPIC -c src/math_utils.c -o src/math_utils.o
+
+Bước 2: Tạo thư viện tĩnh .dll:
+gcc -shared -o math_utils.dll src/math_utils.o "-Wl,--out-implib,libmath_utils.a"
+
+Bước 3: Biên dịch để dụng dll
+gcc -Iinclude main.c -L. -lmath_utils -o main.exe
+
+* VÌ thư viện động được liên kết trong quá trình running nên thường .dll sẽ phải đi chung 
+thư mục với main.exe, không sẽ phải thêm .dll vào đường dẫn path của hệ thống.
